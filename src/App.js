@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
 import data from './data';
-
+import { CartContext } from './context/cartContext';
 import { ProductContext } from './context/productContext';
 // Components
 import Navigation from './components/Navigation';
@@ -19,19 +19,17 @@ function App() {
 	return (
 		<div className="App">
 			<Navigation cart={cart} />
+			<CartContext.Provider>
+				<ProductContext.Provider value = {{ 		products, addItem }}>
+					<Route exact path="/">
+						<Products />
+					</Route>
 
-			{/* Routes */}
-			<ProductContext.Provider value = {{ products, addItem }}>
-
-				<Route exact path="/">
-					<Products />
-				</Route>
-
-				<Route path="/cart">
-					<ShoppingCart cart={cart} />
-				</Route>
-				
-			</ProductContext.Provider>
+					<Route path="/cart">
+						<ShoppingCart cart={cart} />
+					</Route>
+				</ProductContext.Provider>
+			</CartContext.Provider>
 		</div>
 	);
 }
